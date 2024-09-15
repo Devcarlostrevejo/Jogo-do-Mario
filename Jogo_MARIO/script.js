@@ -1,5 +1,5 @@
 const mario = document.querySelector('.mario');
-const pipr = document.querySelector('.pipe');
+const pipe = document.querySelector('.pipe');
 
 const jump = () => {
     mario.classList.add('jump');
@@ -9,12 +9,13 @@ const jump = () => {
     }, 500);
 }
 
-const loop = setInterval(() =>{
+const loop = setInterval(() => {
 
     console.log('loop')
 
     const pipePostition = pipe.offsetLeft;
-    const marioPosition = +window.getComputedStyle(mario).bottom.replace('px', '');
+    const marioPosition = +window.getComputedStyle(mario).bottom.replace
+    ('px', '');
 
     console.log(marioPosition);
     
@@ -24,11 +25,11 @@ const loop = setInterval(() =>{
         pipe.style.left = `${pipePostition}px`;
 
         pipe.style.animation = 'none';
-        mario.style.bottom = `${marioPostition}px`;
+        mario.style.bottom = `${marioPosition}px`;
 
-        mario.src="./mario-jump/game-over.png";
+        mario.src='./images/game-over.png';
         mario.style.width = '75px'
-        mario.style.marginLeft = '50px'´
+        mario.style.marginLeft = '50px'
 
         clearInterval(loop);
     } 
