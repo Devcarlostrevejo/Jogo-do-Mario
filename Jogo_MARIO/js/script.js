@@ -1,5 +1,9 @@
 const mario = document.querySelector('.mario');
 const pipe = document.querySelector('.pipe');
+const scoreDisplay = document.getElementById('scoreDisplay');
+
+let pontos = 0;
+let gameStarted = false;
 
 const jump = () => {
     mario.classList.add('jump');
@@ -9,31 +13,51 @@ const jump = () => {
     }, 500);
 }
 
-const loop = setInterval(() => {
+function increasepontos(points) {
+    pontos += points;
+    scoreDisplay.innerText = pontos.toString().padStart(7, '0');
+}
 
-    console.log('loop')
+function startGame() {
+    if (gameStarted) return;
 
-    const pipePostition = pipe.offsetLeft;
-    const marioPosition = +window.getComputedStyle(mario).bottom.replace
-    ('px', '');
+    gameStarted = true;
 
-    console.log(marioPosition);
-    
-    if (pipePostition <= 120 && pipePostition > 0 && marioPosition < 80) {
+    const loop = setInterval(() => {
+        const pipePosition = pipe.offsetLeft;
+        const marioPosition = +window.getComputedStyle(mario).bottom.replace('px', '');
 
-        pipe.style.animation = 'none';
-        pipe.style.left = `${pipePostition}px`;
+        if (pipePosition <= 120 && pipePosition > 0 && marioPosition < 80) {
+            pipe.style.animation = 'none';
+            pipe.style.left = `${pipePosition}px`;
 
-        pipe.style.animation = 'none';
-        mario.style.bottom = `${marioPosition}px`;
+            mario.src = './images/game-over.png';
+            mario.style.width = '75px';
+            mario.style.marginLeft = '50px';
 
-        mario.src='./images/game-over.png';
-        mario.style.width = '75px'
-        mario.style.marginLeft = '50px'
+            clearInterval(loop);
 
-        clearInterval(loop);
-    } 
+            setTimeout(() => {
+                location.reload();
+            }, 5000);
+        } 
 
-}, 18);
+        else if (pipePosition < 0 && marioPosition >= 80) {
+            increasepontos(10);
+        }
 
-document.addEventListener('keydown', jump);
+        if (pipePosition <= pipe.offsetWidth) {
+        }
+
+    }, 18);
+}
+
+document.addEventListener('keydown', (event) => {
+    if (!gameStarted) {
+        startGame();
+    }
+
+    if (event.code === 'Space' || event.code === 'ArrowUp') { 
+        jump();
+    }
+});
