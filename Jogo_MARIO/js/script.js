@@ -4,6 +4,7 @@ const scoreDisplay = document.getElementById('scoreDisplay');
 
 let pontos = 0;
 let gameStarted = false;
+let pontosAdded = false;
 
 const jump = () => {
     mario.classList.add('jump');
@@ -42,11 +43,13 @@ function startGame() {
             }, 5000);
         } 
 
-        else if (pipePosition < 0 && marioPosition >= 80) {
+        else if (pipePosition < 0 && !pontosAdded) {
             increasepontos(10);
+            pontosAdded = true;
         }
 
-        if (pipePosition <= pipe.offsetWidth) {
+        if (pipePosition > 0) {
+            pontosAdded = false;
         }
 
     }, 18);
